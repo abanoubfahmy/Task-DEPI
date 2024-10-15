@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+
+    <style>
+      img {
+        cursor: pointer;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1></h1>
+    <div
+      class="box"
+      style="width: 150px; height: 200px; border: 3px solid #ccc"
+      ondragover="event.preventDefault()"
+      ondrop="drop(this)"
+    >
+      put letter "A"
+    </div>
+
+    <div class="parent">
+      <div draggable="true" ondragstart="dragStart(this)" width="100">A</div>
+      <div
+        draggable="true"
+        ondragstart="dragStart(this)"
+        width="100"
+        
+      >
+      <!-- ondragend="document.querySelector('.parent').append(this)" -->
+        S
+      </div>
+      <div draggable="true" ondragstart="dragStart(this)" width="100">a</div>
+    </div>
+  
+
+      
+
+    <script>
+      let dragEle;
+      function dragStart(dragThis) {
+        dragEle = dragThis;
+        console.log(dragEle);
+      }
+      var score = 0;
+
+      console.log(sessionStorage.score);
+      function drop(thisDrop) {
+        if (dragEle.innerHTML == "A" || dragEle.innerHTML == "a") {
+          score++;
+          sessionStorage.score = score;
+
+          document.querySelector("h1").innerHTML = "Score :" + score;
+
+          document.querySelector(".box").append(dragEle);
+          document.querySelector(".box").style.backgroundColor = "green";
+        }
+        else {
+          if (dragEle.innerHTML == "S")
+          document.querySelector(".box").style.backgroundColor = "red";
+        }
+      }
+
+      score = sessionStorage.score ? sessionStorage.score : score;
+      document.querySelector("h1").innerHTML = "Score :" + score;
+
+
+    </script>
+  </body>
+</html>

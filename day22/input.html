@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!DOCTYPE html>
+<html>
+
+<head>
+    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <script>
+    </script>
+</head>
+
+<body>
+
+
+    <div class="container-fluid">
+        <div id="input" class="alert alert-primary alert-dismissible fade show" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                <span class="sr-only">Close</span>
+            </button>
+            <strong>Holy guacamole!</strong> You should check in on some of those fields below.
+        </div>
+
+
+
+        <form>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+
+                </div>
+                <input id="fname" type="text" class="form-control" name="fname" placeholder="Your name">
+            </div>
+
+
+            <button id="okBtn" type="submit" class="btn btn-primary btn-block">submit</button>
+        </form>
+        </form>
+
+  
+        </div>
+
+    </div>
+
+    <script>
+        document.querySelector("#fname").onblur = function() {
+
+            let fname = document.querySelector("#fname").value;
+            if (fname.length < 5) {
+                document.querySelector("#input").classList.add("d-block");
+            } else {
+                document.querySelector("#input").classList.remove("d-block");
+                document.querySelector("#input").classList.add("d-none");
+            }
+        };
+    </script>
+</body>
+
+</html>
+</body>
+</html>

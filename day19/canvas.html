@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to bottom right, #74ebd5, #ACB6E5);
+        }
+
+        canvas {
+            border: 2px solid #000;
+            margin-top: 20px;
+            background-color: #fff;
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .button-container button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            color: white;
+        }
+
+        #rectangle {
+            background-color: #3498db; /* Blue */
+        }
+
+        #circle {
+            background-color: #e74c3c; /* Red */
+        }
+
+        #line {
+            background-color: #2ecc71; /* Green */
+        }
+
+        #freehand {
+            background-color: #f39c12; /* Orange */
+        }
+
+        #clear {
+            background-color: #9b59b6; /* Purple */
+        }
+
+        #erase {
+            background-color: #e67e22; /* Dark Orange */
+        }
+
+        .button-container button:hover {
+            opacity: 0.8;
+        }
+
+        .sliders, .colors, .fill-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+        }
+
+        input[type="range"] {
+            width: 150px;
+        }
+
+        input[type="color"] {
+            cursor: pointer;
+            padding: 3px;
+        }
+
+        input[type="checkbox"] {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <canvas width="700" height="700"></canvas>
+    <button id="rectangle">Rectangle</button>
+    <button id="circle">Circle</button>
+    <button id="line">Line</button>
+    <button id="freehand">Free Hand</button>
+    <button id="clear">Clear</button>
+    <button id="erase">Erase</button>
+    <input type="range" id="size">
+    <label for="color">Stroke Color</label>
+    <input type="color" id="color">
+    <label for="fillColor">Fill Color</label>
+    <input type="color" id="fillColor">
+    <label for="stroke">Fill</label>
+    <input type="checkbox" id="fill">
+    <script src="canva.js"></script>
+</body>
+<script>
+    let canvas = /** @type {HTMLCanvasElement} */ (document.querySelector('canvas'));
+let ctx = canvas.getContext('2d');
+
+let startX, startY, endX, endY;
+let fillCheck = document.querySelector('#fill');
+let colorSpin = document.querySelector('#color');
+let fillColorSpin = document.querySelector('#fillColor');
+
+let getColorValue = () => colorSpin.value;
+let getFillColorValue = () => fillColorSpin.value;
+
+let clear = document.querySelector('#clear');
+let stop = document.querySelector('#stop');
+
+let size = document.querySelector('#size');
+
+
+let isDrawing = false;
+
+let drawRectangleListener, drawRectangleMouseMoveListener, drawRectangleMouseUpListener;
+let drawCircleListener, drawCircleMouseMoveListener, drawCircleMouseUpListener;
+let drawLineListener, drawLineMouseMoveListener, drawLineMouseUpListener;
+let freeHandListener, freeHandMouseMoveListener, freeHandMouseUpListener;
+let eraserListener, eraserMouseMoveListener, eraserMouseUpListener;
+
+//? Rectangle Listeners
+drawRectangleListener = (mouseCoords) => {
+    startX = mouseCoords.offsetX;
+    startY = mouseCoords.offsetY;
+    canvas.addEventListener('mousemove', drawRectangleMouseMoveListener);
+    canvas.addEventListener('mouseup', drawRectangleMouseUpListener);
+};
+
+drawRectangleMouseMoveListener = (mouseCoords) => {
+    endX = mouseCoords.offsetX;
+    endY = mouseCoords.offsetY;
+};
+
+drawRectangleMouseUpListener = () => {
+    ctx.beginPath();
+    ctx.strokeStyle = getColorValue();
+    ctx.rect(startX, startY, endX - startX, endY - startY);
+    if(fillCheck.checked) {
+    ctx.fillStyle = getFillColorValue();
+        ctx.fill()};
+    ctx.stroke();
+    canvas.removeEventListener('mousemove', drawRectangleMouseMoveListener);
+    canvas.removeEventListener('mouseup', drawRectangleMouseUpListener);
+};
+
+//? Circle Listeners
+drawCircleListener = (mouseCoords) => {
+    startX = mouseCoords.offsetX;
+    startY = mouseCoords.offsetY;
+    canvas.addEventListener('mousemove', drawCircleMouseMoveListener);
+    canvas.addEventListener('mouseup', drawCircleMouseUpListener);
+};
+
+drawCircleMouseMoveListener = (mouseCoords) => {
+    endX = mouseCoords.offsetX;
+    endY = mouseCoords.offsetY;
+};
+
+drawCircleMouseUpListener = () => {
+    ctx.beginPath();
+    ctx.strokeStyle = getColorValue();
+    ctx.arc(startX, startY, Math.abs(endX - startX), 0, 2 * Math.PI);
+    if(fillCheck.checked) {
+    ctx.fillStyle = getFillColorValue();
+        ctx.fill()};
+    ctx.stroke();
+    canvas.removeEventListener('mousemove', drawCircleMouseMoveListener);
+    canvas.removeEventListener('mouseup', drawCircleMouseUpListener);
+};
+
+//? Line Listeners
+drawLineListener = (mouseCoords) => {
+    startX = mouseCoords.offsetX;
+    startY = mouseCoords.offsetY;
+    canvas.addEventListener('mousemove', drawLineMouseMoveListener);
+    canvas.addEventListener('mouseup', drawLineMouseUpListener);
+};
+
+drawLineMouseMoveListener = (mouseCoords) => {
+    endX = mouseCoords.offsetX;
+    endY = mouseCoords.offsetY;
+};
+
+drawLineMouseUpListener = () => {
+    ctx.beginPath();
+    ctx.strokeStyle = getColorValue();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(endX, endY);
+    if(fillCheck.checked) {
+    ctx.fillStyle = getFillColorValue();
+        ctx.fill()};
+    ctx.stroke();
+    canvas.removeEventListener('mousemove', drawLineMouseMoveListener);
+    canvas.removeEventListener('mouseup', drawLineMouseUpListener);
+};
+
+//? Free Hand Listeners
+freeHandListener = (mouseCoords) => {
+    isDrawing = true;
+    startX = mouseCoords.offsetX;
+    startY = mouseCoords.offsetY;
+    canvas.addEventListener('mousemove', freeHandMouseMoveListener);
+    canvas.addEventListener('mouseup', freeHandMouseUpListener);
+};
+
+freeHandMouseMoveListener = (mouseCoords) => {
+    if (!isDrawing) return;
+    endX = mouseCoords.offsetX;
+    endY = mouseCoords.offsetY;
+    ctx.beginPath();
+    ctx.moveTo(startX, startY);
+    ctx.lineTo(endX, endY);
+    if(fillCheck.checked) {
+    ctx.fillStyle = getFillColorValue();
+        ctx.fill()};
+    ctx.stroke();
+    startX = endX;
+    startY = endY;
+};
+
+freeHandMouseUpListener = () => {
+    isDrawing = false;
+    canvas.removeEventListener('mousemove', freeHandMouseMoveListener);
+    canvas.removeEventListener('mouseup', freeHandMouseUpListener);
+};
+
+//? Eraser Listeners
+eraserListener = (mouseCoords) => {
+    isDrawing = true;
+    startX = mouseCoords.offsetX;
+    startY = mouseCoords.offsetY;
+    canvas.addEventListener('mousemove', eraserMouseMoveListener);
+    canvas.addEventListener('mouseup', eraserMouseUpListener);
+};
+
+eraserMouseMoveListener = (mouseCoords) => {
+    if (!isDrawing) return;
+    endX = mouseCoords.offsetX;
+    endY = mouseCoords.offsetY;
+    ctx.clearRect(startX, startY, size.value, size.value);
+    startX = endX;
+    startY = endY;
+};
+
+eraserMouseUpListener = () => {
+    isDrawing = false;
+    canvas.removeEventListener('mousemove', eraserMouseMoveListener);
+    canvas.removeEventListener('mouseup', eraserMouseUpListener);
+};
+
+//? Event listeners for buttons
+document.querySelector('#rectangle').addEventListener('click', () => {
+    canvas.addEventListener('mousedown', drawRectangleListener);
+    canvas.removeEventListener('mousedown', drawCircleListener);
+    canvas.removeEventListener('mousedown', drawLineListener);
+    canvas.removeEventListener('mousedown', freeHandListener);
+    canvas.removeEventListener('mousedown', eraserListener);
+});
+
+document.querySelector('#circle').addEventListener('click', () => {
+    canvas.addEventListener('mousedown', drawCircleListener);
+    canvas.removeEventListener('mousedown', drawRectangleListener);
+    canvas.removeEventListener('mousedown', drawLineListener);
+    canvas.removeEventListener('mousedown', freeHandListener);
+    canvas.removeEventListener('mousedown', eraserListener);
+});
+
+document.querySelector('#line').addEventListener('click', () => {
+    canvas.addEventListener('mousedown', drawLineListener);
+    canvas.removeEventListener('mousedown', drawRectangleListener);
+    canvas.removeEventListener('mousedown', drawCircleListener);
+    canvas.removeEventListener('mousedown', freeHandListener);
+    canvas.removeEventListener('mousedown', eraserListener);
+});
+
+document.querySelector('#freehand').addEventListener('click', () => {
+    canvas.addEventListener('mousedown', freeHandListener);
+    canvas.removeEventListener('mousedown', drawRectangleListener);
+    canvas.removeEventListener('mousedown', drawCircleListener);
+    canvas.removeEventListener('mousedown', drawLineListener);
+    canvas.removeEventListener('mousedown', eraserListener);
+});
+
+clear.addEventListener('click', () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+});
+
+document.querySelector('#erase').addEventListener('click', () => {
+    canvas.removeEventListener('mousedown', drawRectangleListener);
+    canvas.removeEventListener('mousemove', drawRectangleMouseMoveListener);
+    canvas.removeEventListener('mouseup', drawRectangleMouseUpListener);
+    
+    canvas.removeEventListener('mousedown', drawCircleListener);
+    canvas.removeEventListener('mousemove', drawCircleMouseMoveListener);
+    canvas.removeEventListener('mouseup', drawCircleMouseUpListener);
+    
+    canvas.removeEventListener('mousedown', drawLineListener);
+    canvas.removeEventListener('mousemove', drawLineMouseMoveListener);
+    canvas.removeEventListener('mouseup', drawLineMouseUpListener);
+    
+    canvas.removeEventListener('mousedown', freeHandListener);
+    canvas.removeEventListener('mousemove', freeHandMouseMoveListener);
+    canvas.removeEventListener('mouseup', freeHandMouseUpListener);
+    
+    canvas.addEventListener('mousedown', eraserListener);
+});
+</script>
+</html>
+</body>
+</html>

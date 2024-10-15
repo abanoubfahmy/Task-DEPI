@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>File Upload and Display</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body class="bg-light">
+
+    <div class="container my-5">
+        <h2 class="text-center mb-4">Upload Files and Display Content Based on File Type</h2>
+
+        <!-- File Upload Form -->
+        <div class="card p-4">
+            <form id="fileForm">
+                <div class="form-group">
+                    <label for="textFile">Upload Text File (.txt):</label>
+                    <input type="file" id="textFile" class="form-control" accept=".txt">
+                </div>
+
+                <div class="form-group">
+                    <label for="imageFile">Upload Image File (.jpg, .jpeg, .png, .gif):</label>
+                    <input type="file" id="imageFile" class="form-control" accept=".jpg, .jpeg, .png, .gif">
+                </div>
+
+                <div class="form-group">
+                    <label for="audioFile">Upload Audio File (.mp3, .wav):</label>
+                    <input type="file" id="audioFile" class="form-control" accept=".mp3, .wav">
+                </div>
+
+                <div class="form-group">
+                    <label for="videoFile">Upload Video File (.mp4, .avi):</label>
+                    <input type="file" id="videoFile" class="form-control" accept=".mp4, .avi">
+                </div>
+
+                <button type="button" id="uploadBtn" class="btn btn-primary btn-block">Upload and Display</button>
+            </form>
+        </div>
+
+        <!-- Display Sections -->
+        <div class="mt-5">
+            <h4>File Content Display:</h4>
+            <div id="displayArea">
+                <div id="textDisplay" class="mb-3" style="display:none;">
+                    <h5>Text File Content:</h5>
+                    <textarea class="form-control" id="textContent" rows="5" readonly></textarea>
+                </div>
+
+                <div id="imageDisplay" class="mb-3" style="display:none;">
+                    <h5>Image File Content:</h5>
+                    <img id="imageContent" class="img-fluid" alt="Uploaded Image">
+                </div>
+
+                <div id="audioDisplay" class="mb-3" style="display:none;">
+                    <h5>Audio File Content:</h5>
+                    <audio id="audioContent" controls></audio>
+                </div>
+
+                <div id="videoDisplay" class="mb-3" style="display:none;">
+                    <h5>Video File Content:</h5>
+                    <video id="videoContent" controls class="img-fluid"></video>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap and JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.0.11/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- JavaScript for File Handling -->
+    <script>
+        document.getElementById('uploadBtn').addEventListener('click', function() {
+            // Get file inputs
+            const textFile = document.getElementById('textFile').files[0];
+            const imageFile = document.getElementById('imageFile').files[0];
+            const audioFile = document.getElementById('audioFile').files[0];
+            const videoFile = document.getElementById('videoFile').files[0];
+
+            // Clear previous displays
+            clearDisplays();
+
+            // Handle text file upload
+            if (textFile && textFile.type === 'text/plain') {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('textContent').textContent = e.target.result;
+                    document.getElementById('textDisplay').style.display = 'block';
+                };
+                reader.readAsText(textFile);
+            }
+
+            // Handle image file upload
+            if (imageFile && (imageFile.type.startsWith('image/jpeg') || imageFile.type.startsWith('image/png') || imageFile.type.startsWith('image/gif'))) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('imageContent').src = e.target.result;
+                    document.getElementById('imageDisplay').style.display = 'block';
+                };
+                reader.readAsDataURL(imageFile);
+            }
+
+            // Handle audio file upload
+            if (audioFile && (audioFile.type.startsWith('audio/mp3') || audioFile.type.startsWith('audio/wav'))) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('audioContent').src = e.target.result;
+                    document.getElementById('audioDisplay').style.display = 'block';
+                };
+                reader.readAsDataURL(audioFile);
+            }
+
+            // Handle video file upload
+            if (videoFile && (videoFile.type.startsWith('video/mp4') || videoFile.type.startsWith('video/avi'))) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    document.getElementById('videoContent').src = e.target.result;
+                    document.getElementById('videoDisplay').style.display = 'block';
+                };
+                reader.readAsDataURL(videoFile);
+            }
+        });
+
+        function clearDisplays() {
+            document.getElementById('textDisplay').style.display = 'none';
+            document.getElementById('imageDisplay').style.display = 'none';
+            document.getElementById('audioDisplay').style.display = 'none';
+            document.getElementById('videoDisplay').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

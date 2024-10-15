@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css"rel="stylesheet"/>
+
+<style>
+  * {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+  ul {
+    width: fit-content;
+    list-style: none;
+    margin: 20px auto;
+    justify-content: space-between;
+    background-color: #1b1b1bd2;
+    border-radius: 4px;
+  }
+
+  ul li {
+    display: inline-block;
+    color: #FFF;
+    padding: .5rem 1rem;
+    border-radius: 4px;
+    transition: .3s;
+  }
+
+  ul li:hover {
+    background-color: rgb(40, 218, 70);
+  }
+
+  ul .active {
+    background-color: rgb(40, 218, 70);
+  }
+
+  ul i {
+    font-size: 2rem;
+  }
+
+  .contact {
+    width: fit-content;
+    margin: 40px auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #eee;
+    border-radius: 50px;
+  }
+
+  .contact p {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+  }
+
+  .contact p i {
+    color: #837f7f;
+  }
+
+  .col {
+    background-color: green;
+    height: 100%;
+    width: 100%;
+    text-align: center;
+  }
+
+  .image {
+    flex: 1;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+  }
+</style>
+</head>
+<body>
+  <ul>
+    <li class="active" href="#">
+      <i class="bx bx-home"></i>
+    </li>
+
+    <li href="#">
+      <i class="bx bx-search"></i>
+    </li>
+
+    <li href="#">
+      <i class="bx bx-message"></i>
+    </li>
+    <li href="#">
+      <i class="bx bx-globe"></i>
+    </li>
+    <li href="#">
+      <i class="bx bx-trash"></i>
+    </li>
+  </ul>
+  <div class="contact">
+    <img width="40" src="images/4.png" alt="">
+    
+      <p>
+        Abanoub Fahmy
+        <i class="bx bx-x"></i>
+      </p>
+  </div>
+
+<div class="flex">
+  
+    <div class="col">
+     this is picture
+    </div>
+    <div class="image flex">
+      <img width="200" height="200" src="images/4.png" alt="">
+      <div>
+        <h1>Abanoub Fahmy</h1>
+        <p>Student at the College of Artificial Intelligence, currently in the fourth level.</p>
+      </div>
+    </div>
+    <div class="col">
+        this is picture
+    </div>
+    <div class="col">
+        this is picture
+    </div>
+    <div class="col">
+        this is picture
+    </div>
+    <div class="col">
+        this is picture
+    </div>
+</div>
+
+
+</svg>
+</body>
+</html>
